@@ -1,0 +1,73 @@
+# 从远程git上clone项目（使用ssh地址）
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/hexo (master)
+$ git clone git@github.com:yywsy/yywsy.github.io.git
+Cloning into 'yywsy.github.io'...
+remote: Enumerating objects: 389, done.
+remote: Total 389 (delta 0), reused 0 (delta 0), pack-reused 389
+Receiving objects: 100% (389/389), 2.81 MiB | 613.00 KiB/s, done.
+Resolving deltas: 100% (125/125), done.
+
+# 查看克隆下来的本地仓库状态
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/hexo (master)
+$ ll
+total 4
+drwxr-xr-x 1 Administrator 197121 0 六月    7 22:31 yywsy.github.io/
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/hexo (master)
+$ cd  yywsy.github.io
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/hexo/yywsy.github.io (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+
+#向文件末尾追加一行文本
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/hexo/yywsy.github.io (master)
+$ echo '<!-- 2019-06-07 追加 -->' >> index.html
+
+# 查看仓库状态 这时候显示有一个文件被修改，提示提交
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/hexo/yywsy.github.io (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+# 不能直接commit，必须先执行 add
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/hexo/yywsy.github.io (master)
+$ git commit -m "克隆下来的文件修改一下"
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+        modified:   index.html
+
+no changes added to commit
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/hexo/yywsy.github.io (master)
+$ git add index.html
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/hexo/yywsy.github.io (master)
+$ git commit -m "克隆下来的文件修改一下"
+[master 55880dc] 克隆下来的文件修改一下
+ 1 file changed, 1 insertion(+)
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/hexo/yywsy.github.io (master)
+$ git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 355 bytes | 355.00 KiB/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To github.com:yywsy/yywsy.github.io.git
+   963c748..55880dc  master -> master
