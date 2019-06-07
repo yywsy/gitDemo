@@ -1,0 +1,80 @@
+# git分支，可以只在本地仓库保存
+#查看分支列表，星号表示当前分支
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git branch
+* master
+#创建新的分支
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git branch branch_v1.0
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git branch
+  branch_v1.0
+* master
+#切换分支
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git checkout branch_v1.0
+Switched to branch 'branch_v1.0'
+#在分支上创建一个测试文件并添加一行文字
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (branch_v1.0)
+$ echo "branchTest" >> branchTest.txt
+提交到本地仓库
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (branch_v1.0)
+$ git add branchTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (branch_v1.0)
+$ git commit -m "本地分支可以自己玩"
+[branch_v1.0 baa23ab] 本地分支可以自己玩
+ 1 file changed, 1 insertion(+)
+ create mode 100644 branchTest.txt
+#查看工作区已经清空
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (branch_v1.0)
+$ git status
+On branch branch_v1.0
+nothing to commit, working tree clean
+
+#切换到主分支
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (branch_v1.0)
+$ git checkout master
+Switched to branch 'master'
+Your branch is up to date with 'origin/master'.
+#主分支上并还有分支上创建的文件
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ ll
+total 17
+-rw-r--r-- 1 Administrator 197121 6790 六月    7 22:48 git笔记-git仓库初始化和提交文件.txt
+-rw-r--r-- 1 Administrator 197121 4155 六月    7 23:58 git笔记-tag标签.txt
+-rw-r--r-- 1 Administrator 197121 2784 六月    7 22:54 git笔记-从远程clone仓库.txt
+-rw-r--r-- 1 Administrator 197121  994 六月    7 22:00 README.md
+-rw-r--r-- 1 Administrator 197121   52 六月    7 23:43 tagTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (branch_v1.0)
+$ git checkout master
+Switched to branch 'master'
+Your branch is up to date with 'origin/master'.
+# 将分支（branch_v1.0）合并到当前分支（master）上
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git merge branch_v1.0
+Updating b9e0437..baa23ab
+Fast-forward
+ branchTest.txt | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 branchTest.txt
+#合并完之后的主分支添加了分支上的文件
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ ll
+total 18
+-rw-r--r-- 1 Administrator 197121   11 六月    8 00:10 branchTest.txt
+-rw-r--r-- 1 Administrator 197121 6790 六月    7 22:48 git笔记-git仓库初始化和提交文件.txt
+-rw-r--r-- 1 Administrator 197121 4155 六月    7 23:58 git笔记-tag标签.txt
+-rw-r--r-- 1 Administrator 197121 2784 六月    7 22:54 git笔记-从远程clone仓库.txt
+-rw-r--r-- 1 Administrator 197121  994 六月    7 22:00 README.md
+-rw-r--r-- 1 Administrator 197121   52 六月    7 23:43 tagTest.txt
+#删除分支
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git branch -d branch_v1.0
+Deleted branch branch_v1.0 (was baa23ab).
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git branch
+* master
