@@ -1,1 +1,1 @@
-# git tag
+# git taggit tag -a v1.0.1 -m '指定提交信息' 
