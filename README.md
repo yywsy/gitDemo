@@ -22,7 +22,8 @@
 
 由于Unix 和 Windows 下对换行符的解释不同，在win下用vim新建编辑的文件在提交到版本库是会出错，提示为
 
-          fatal: LF  would be replaced by CRLF 
+          fatal: LF would be replaced by CRLF in README.md
+ 
 
 因为win下文件回车换行是以CRLF结尾，而用VIM编辑器新建的文件是以LF结尾，导致出现了此问题。
 

@@ -1,0 +1,150 @@
+# 创建ssh key
+Administrator@wsy MINGW64 ~/.ssh
+		$ ssh-keygen -t rsa -b 4096 -C "707339@163.com"
+		Generating public/private rsa key pair.
+		Enter file in which to save the key (/c/Users/Administrator/.ssh/id_rsa): #这里直接回车，不设置密码
+		/c/Users/Administrator/.ssh/id_rsa already exists.
+		Overwrite (y/n)? y
+		Enter passphrase (empty for no passphrase): #这里直接回车，不设置密码
+		Enter same passphrase again: #这里直接回车，不设置密码
+		Your identification has been saved in /c/Users/Administrator/.ssh/id_rsa.
+		Your public key has been saved in /c/Users/Administrator/.ssh/id_rsa.pub.
+		The key fingerprint is:
+		SHA256:3LZ6ygAza15T04hbS1jJ1H/KwQtVWxZWpYpOZ2k2gDg 707339@163.com
+		The key's randomart image is:
+		+---[RSA 4096]----+
+		|        ..   ..oO|
+		|       + o. . .= |
+		|      E = .+  o  |
+		|       * +.o+o.  |
+		|    + o S *oO=   |
+		|     = = * *+.   |
+		|    o = . o      |
+		|   o . + ..      |
+		|    .   +o       |
+		+----[SHA256]-----+
+
+# 查看生成的ssh Key
+Administrator@wsy MINGW64 ~/.ssh
+		$ ll
+		total 12
+		-rw-r--r-- 1 Administrator 197121 3381 六月    7 21:15 id_rsa
+		-rw-r--r-- 1 Administrator 197121  740 六月    7 21:15 id_rsa.pub
+		-rw-r--r-- 1 Administrator 197121  987 六月    7 20:56 known_hosts
+
+Administrator@wsy MINGW64 ~/.ssh
+		$ cat id_rsa.pub
+		ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDmBm2LHF9MCS1WWNfxfYlTFdckOjS/79wCD+46WxGPFIx9FjQkL8e3JqQjJibV1a5LDg4QjmlcYnRJZPqzlmK1SAn1x1qRy6bPFzVtc8FoM3fWvPS12BIO2hiNlMhuH1zSH+TvcNzJFAjrw+ON8F4V555dXHDxy5BRVzc0wwCHDKjgR4MNayKTXXq4YJpy+hbkIXyLphkYX1gQzQWRfYepauebEtOrAi1htLDimVjVspjobHLq9U0mbJqHXdcaVzaKy7bWDpT/cvh1Etyitsjfvnl3QPopUUhs6Z1pX8w3Y5f69uk2KazIIWL3vI18/pXqTZpdFcz35t3iKlURGCFS6uaWfE0YrQ2sC1BfuJ3jX20cgmTkvKAgkLCe68eKPAC91JW9oIUoQ2pnogrv3QpGFGBDaPv2o05qhQ+xlEBlDQsjK5pn9UoK09h6iSxQHkLdWra3MFyjN+RB/bdgLR7A0f+9V+6thDx6FD22ELLD3U4uw7Cwb+tfBsWaDEFBE6TRVQcviwyradexnr62+9OGTIUMGClO3yWlV/OARjXFAebeiP/coZt4ptj9Vr0mdIT35UzC6wYMhlH3K+GzCs2FlCA0X59mXzACZpEkaQysBQ2Cr3u91PR6p+l/AFQuQYp1K9ZMFFnsSASqL4bl98KVHjtbEScfouoLVNkKUtC3Uw== 707339@163.com
+
+# 复制上面的密码 在git上设置
+# 然后进行测试
+Administrator@wsy MINGW64 ~/.ssh
+		$ ssh -T git@github.com
+		Warning: Permanently added the RSA host key for IP address '13.250.177.223' to the list of known hosts.
+		Hi yywsy! You've successfully authenticated, but GitHub does not provide shell access.
+
+# 进入本地文件夹
+Administrator@wsy MINGW64 ~/.ssh
+		$ cd E:/IlikeStudy/CODEING/git/gitDemo
+
+# 创建一个测试文件
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+		$ echo "# gitDemo" >> README.md
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+		$ ll
+		total 1
+		-rw-r--r-- 1 Administrator 197121 10 六月    7 21:28 README.md
+
+# 在此创建git本地仓库
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+		$ git init
+		Initialized empty Git repository in E:/IlikeStudy/CODEING/git/gitDemo/.git/
+
+# 将本地文件添加到仓库中
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+		$ git add README.md
+		fatal: LF would be replaced by CRLF in README.md # 由于Unix 和 Windows 下对换行符的解释不同  挂掉了，没办法添加
+
+# 解决办法：进入本仓库的配置文件中 找到项目的.git目录,修改config文件，在[core]配置项添加“autocrlf = false”
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+		$ cd .git
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo/.git (GIT_DIR!)
+		$ ll
+		total 7
+		-rw-r--r-- 1 Administrator 197121 130 六月    7 21:28 config
+		-rw-r--r-- 1 Administrator 197121  73 六月    7 21:28 description
+		-rw-r--r-- 1 Administrator 197121  23 六月    7 21:28 HEAD
+		drwxr-xr-x 1 Administrator 197121   0 六月    7 21:28 hooks/
+		drwxr-xr-x 1 Administrator 197121   0 六月    7 21:28 info/
+		drwxr-xr-x 1 Administrator 197121   0 六月    7 21:28 objects/
+		drwxr-xr-x 1 Administrator 197121   0 六月    7 21:28 refs/
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo/.git (GIT_DIR!)
+		$ vi config
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo/.git (GIT_DIR!)
+		$ cd ..
+
+# 向仓库添加文件
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+		$ git add README.md
+		# 提交变更到本地仓库版本控制 -m 参数 后跟 提交说明，这个参数是必须的
+		Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+		$ git commit -m "本地创建帮助文档、测试提交"
+		[master (root-commit) 50071d4] 本地创建帮助文档、测试提交
+		 1 file changed, 1 insertion(+)
+		 create mode 100644 README.md
+
+# 将本地仓库和 远程的https://github.com/yywsy/gitDemo.git仓库关联
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+		$ git remote add origin https://github.com/yywsy/gitDemo.git
+
+# 将本地仓库 绑定到远程仓库的 mastrer分支 并推送变更
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+		$ git push -u origin master
+		Enumerating objects: 3, done.
+		Counting objects: 100% (3/3), done.
+		Writing objects: 100% (3/3), 256 bytes | 256.00 KiB/s, done.
+		Total 3 (delta 0), reused 0 (delta 0)
+		To https://github.com/yywsy/gitDemo.git
+		 * [new branch]      master -> master
+		Branch 'master' set up to track remote branch 'master' from 'origin'.
+
+# 仓库中文件被修改后 还是用add命令提交变更
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+		$ git add README.md
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+		$ git commit -m "修改后提交"
+		[master ff7ef8a] 修改后提交
+		 1 file changed, 29 insertions(+)
+
+# 因为已经绑定了远程仓库和分支，之后都只需要push所有本地仓库的变更到远程仓库
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+		$ git push
+		Enumerating objects: 5, done.
+		Counting objects: 100% (5/5), done.
+		Delta compression using up to 4 threads
+		Compressing objects: 100% (2/2), done.
+		Writing objects: 100% (3/3), 860 bytes | 860.00 KiB/s, done.
+		Total 3 (delta 0), reused 0 (delta 0)
+		To https://github.com/yywsy/gitDemo.git
+		   50071d4..ff7ef8a  master -> master
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+		$ git add README.md
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+		$ git commit  -m "再次修改，使用git -add README.md"
+		On branch master
+		Your branch is up to date with 'origin/master'.
+
+		nothing to commit, working tree clean 
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+		$ git push
+		Everything up-to-date
+		# 有时候添加或删除空格变更并不能被扫描出来，仓库认为文件已经是最新的。。。比较尴尬
+
