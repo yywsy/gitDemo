@@ -1,0 +1,128 @@
+# git标签管理
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+        new file:   tagTest.txt
+
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git add tagTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+        new file:   tagTest.txt
+
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git commit -m "学习标签管理"
+[master 7b0df9f] 学习标签管理
+ 2 files changed, 74 insertions(+)
+ create mode 100644 tagTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (4/4), 1.40 KiB | 1.40 MiB/s, done.
+Total 4 (delta 0), reused 0 (delta 0)
+To https://github.com/yywsy/gitDemo.git
+   ffa36d6..7b0df9f  master -> master
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+# 显示所有标签
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git tag
+#添加一个新标签
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git tag v1.0.1
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git tag
+v1.0.1
+# 推送本地标签到远程仓库
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git push origin v1.0.1
+Total 0 (delta 0), reused 0 (delta 0)
+To https://github.com/yywsy/gitDemo.git
+ * [new tag]         v1.0.1 -> v1.0.1
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ echo "git tag -a v1.0.1 -m '指定提交信息' " >>  tagTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git add tagTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git tag -a v1.0.1 -m "指定标签提交信息"
+fatal: tag 'v1.0.1' already exists
+# 添加标签并指定标签提交信息
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git tag -a v1.0.2 -m "指定标签提交信息"
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git tag
+v1.0.1
+v1.0.2
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git commit tagTest.txt -m "tagv1.0.2之后追加"
+[master 033a99c] tagv1.0.2之后追加
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 315 bytes | 315.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/yywsy/gitDemo.git
+   7b0df9f..033a99c  master -> master
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git push origin v1.0.2
+Enumerating objects: 1, done.
+Counting objects: 100% (1/1), done.
+Writing objects: 100% (1/1), 183 bytes | 183.00 KiB/s, done.
+Total 1 (delta 0), reused 0 (delta 0)
+To https://github.com/yywsy/gitDemo.git
+ * [new tag]         v1.0.2 -> v1.0.2
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git tag vdel
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git tag
+v1.0.1
+v1.0.2
+vdel
+
+#删除标签
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git tag -d vdel
+Deleted tag 'vdel' (was 033a99c)
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git tag
+v1.0.1
+v1.0.2
