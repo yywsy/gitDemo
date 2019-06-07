@@ -32,3 +32,6 @@
 解决方法：找到win项目的.git目录,修改config文件，在[core]配置项添加下面一句话，就ok了。
 
 		autocrlf = false  
+		
+
+### 将github 仓库同步到码云 https://zhuanlan.zhihu.com/p/37719046
