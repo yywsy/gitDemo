@@ -2,6 +2,7 @@
 
 
 - ** create a new repository on the command line**
+
 		echo "# gitDemo" >> README.md
 		git init
 		git add README.md
@@ -10,6 +11,7 @@
 		git push -u origin master
 
 - ** push an existing repository from the command line**
+
 		git remote add origin https://github.com/yywsy/gitDemo.git
 		git push -u origin master
 
@@ -25,8 +27,6 @@
 
  
 
-解决方法：
-
-找到win项目的.git目录,修改config文件，在[core]配置项添加下面一句话，就ok了。
+解决方法：找到win项目的.git目录,修改config文件，在[core]配置项添加下面一句话，就ok了。
 
 		autocrlf = false  
