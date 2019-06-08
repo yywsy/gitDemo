@@ -1,0 +1,100 @@
+#git 删除相关操作
+#新建测试文件
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ echo "删除命令 测试" >> rmTest.txt
+#查看本地目录
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ ll
+total 39
+-rw-r--r-- 1 Administrator 197121    11 六月    8 00:10 branchTest.txt
+-rw-r--r-- 1 Administrator 197121  6790 六月    7 22:48 git笔记-git仓库初始化和提交文件.txt
+-rw-r--r-- 1 Administrator 197121  4155 六月    7 23:58 git笔记-tag标签.txt
+-rw-r--r-- 1 Administrator 197121 17250 六月    8 20:07 git笔记-版本回滚reset.txt
+-rw-r--r-- 1 Administrator 197121  2784 六月    7 22:54 git笔记-从远程clone仓库.txt
+-rw-r--r-- 1 Administrator 197121  3396 六月    8 00:19 git笔记-分支.txt
+-rw-r--r-- 1 Administrator 197121  1072 六月    8 00:35 README.md
+-rw-r--r-- 1 Administrator 197121   856 六月    8 19:32 resetTest.txt
+-rw-r--r-- 1 Administrator 197121    20 六月    8 20:09 rmTest.txt #文件新建成功
+-rw-r--r-- 1 Administrator 197121    52 六月    7 23:43 tagTest.txt
+
+#使文件加入版本控制，并不提交
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git add rmTest.txt
+#查看本地仓库状态，
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+        new file:   rmTest.txt #显示有一个新文件，状态待提交
+
+# 从版本库移除，但不删除文件
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git rm --cached rmTest.txt
+rm 'rmTest.txt'
+#查看版本库状态
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        rmTest.txt # 显示有一个未受版本控制的文件，提示用add命令加入版本库
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+#再次将文件放入版本库
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git add rmTest.txt
+#执行删除命令，删除版本库和本地文件
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git rm -f rmTest.txt
+rm 'rmTest.txt'
+#这时候版本库显示已经清空
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+#查看本地文件夹目录，文件也被删掉了
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ ll
+total 38
+-rw-r--r-- 1 Administrator 197121    11 六月    8 00:10 branchTest.txt
+-rw-r--r-- 1 Administrator 197121  6790 六月    7 22:48 git笔记-git仓库初始化和提交文件.txt
+-rw-r--r-- 1 Administrator 197121  4155 六月    7 23:58 git笔记-tag标签.txt
+-rw-r--r-- 1 Administrator 197121 17250 六月    8 20:07 git笔记-版本回滚reset.txt
+-rw-r--r-- 1 Administrator 197121  2784 六月    7 22:54 git笔记-从远程clone仓库.txt
+-rw-r--r-- 1 Administrator 197121  3396 六月    8 00:19 git笔记-分支.txt
+-rw-r--r-- 1 Administrator 197121  1072 六月    8 00:35 README.md
+-rw-r--r-- 1 Administrator 197121   856 六月    8 19:32 resetTest.txt
+-rw-r--r-- 1 Administrator 197121    52 六月    7 23:43 tagTest.txt
+
+#其它相关命令，用的时候百度一下，谨慎使用删除
+git rm --cached <FILE>：已 add（tracked） 未 commit 的文件，使其回到未 add 状态（untracked）。
+
+git rm -f <FILE>： 从本地删除已 add 的文件。
+
+git checkout -- <FILE> ：有修改的文件回到 tracked 状态，对已 tracked 的文件撤销修改。
+
+git reset HEAD <FILE>：撤销 commit，回到 modified 状态。
+
+git reset --soft HEAD^：撤销 commit，回到 tracked 状态。
+
+git clean：删除所有 untracked 文件。
+
+git clean -n：演习
+
+git clean -f：删除当前目录下 untracked 文件，除过 .gitignore 里的文件或文件夹
+
+git clean -f <path>：指定路径下
+
+git clean -df：删除当前目录下 untracked 文件和文件夹
+
+git clean -xf：删除当前目录下所有 untracked 文件，不管 .gitignore
