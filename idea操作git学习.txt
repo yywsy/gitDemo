@@ -5,3 +5,5 @@
 3、将当前还未commit的数据临时保存起来（保证能忽略修改正常pull） https://blog.csdn.net/weixin_44647371/article/details/88127557
 
 4、Idea 使用 git cherry-pick 合并 某个 commit 到某分支 https://blog.csdn.net/xu990128638/article/details/89680664
+
+5、idea操作 创建tag、删除tag https://blog.csdn.net/weixin_43453386/article/details/83857038
