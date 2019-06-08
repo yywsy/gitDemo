@@ -1,1 +1,1 @@
-首先在分支上准备一个文件
+git cherry-pick的使用 https://blog.csdn.net/FightFightFight/article/details/81039050
