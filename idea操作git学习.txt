@@ -3,3 +3,5 @@
 2、idea操作git~本地+远程 回滚版本 https://blog.csdn.net/weixin_44647371/article/details/88142371
 
 3、将当前还未commit的数据临时保存起来（保证能忽略修改正常pull） https://blog.csdn.net/weixin_44647371/article/details/88127557
+
+4、Idea 使用 git cherry-pick 合并 某个 commit 到某分支 https://blog.csdn.net/xu990128638/article/details/89680664
