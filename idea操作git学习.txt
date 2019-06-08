@@ -1,3 +1,5 @@
 1、IDEA开发工具使用 git 创建项目、拉取分支、合并分支 https://blog.csdn.net/qq_39470733/article/details/80366435
 
 2、idea操作git~本地+远程 回滚版本 https://blog.csdn.net/weixin_44647371/article/details/88142371
+
+3、将当前还未commit的数据临时保存起来（保证能忽略修改正常pull） https://blog.csdn.net/weixin_44647371/article/details/88127557
