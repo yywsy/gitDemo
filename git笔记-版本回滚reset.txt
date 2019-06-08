@@ -1,0 +1,419 @@
+#git 版本回滚reset命令学习
+#先建一个测试文件
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ echo "git reset 命令学习" >> resetTest.txt
+#提交并push到远程
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git add resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git commit resetTest.txt
+[master cf7195b] reset 命令学习
+ 1 file changed, 1 insertion(+)
+ create mode 100644 resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git push
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 306 bytes | 306.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/yywsy/gitDemo.git
+   a8e8bfa..cf7195b  master -> master
+
+#做一次修改，同样提交并push到远程
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ vi resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git add resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git commit resetTest.txt  -m " 二次提交"
+[master 919329f]  二次提交
+ 1 file changed, 2 insertions(+)
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git push
+fatal: TaskCanceledException encountered.
+   ????????????
+Username for 'https://github.com': 707339@163.com
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 346 bytes | 346.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/yywsy/gitDemo.git
+   cf7195b..919329f  master -> master
+
+#通过查看日志，找到需要回滚的版本记录号
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git log
+commit 919329f9a764b1dda1486e4dee2e654e8b90b6be (HEAD -> master, origin/master)
+Author: yywsy <707339@163.com>
+Date:   Sat Jun 8 18:32:06 2019 +0800
+
+     二次提交
+
+commit cf7195bb29370eadd0b1537d8d10063740912083
+Author: yywsy <707339@163.com>
+Date:   Sat Jun 8 18:25:25 2019 +0800
+
+    reset 命令学习
+
+commit a8e8bfaaef030c013ddfe93ab2fdc542fb67090a
+Author: yywsy <707339@163.com>
+Date:   Sat Jun 8 00:35:40 2019 +0800
+
+    "如何将github 项目同步到码云"
+
+commit 66e2e79fc767055f8668e8f3aca2ceb312358946
+Author: yywsy <707339@163.com>
+Date:   Sat Jun 8 00:20:38 2019 +0800
+
+    分支命令学习
+
+#回滚到其中一个版本
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git reset --hard  cf7195bb29370eadd0b1537d8d10063740912083
+HEAD is now at cf7195b reset 命令学习
+#这时候工作区的文件已经修改回“cf7195b”这个版本
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ vi resetTest.txt
+
+#git reflog 可以查看所有分支的所有操作记录（包括commit和reset的操作），包括已经被删除的commit记录，git log则不能察看已经删除了的commit记录
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git reflog
+cf7195b (HEAD -> master) HEAD@{0}: reset: moving to cf7195bb29370eadd0b1537d8d10063740912083
+919329f (origin/master) HEAD@{1}: commit: 二次提交
+cf7195b (HEAD -> master) HEAD@{2}: commit: reset 命令学习
+a8e8bfa HEAD@{3}: commit: "如何将github 项目同步到码云"
+66e2e79 HEAD@{4}: commit: 分支命令学习
+baa23ab HEAD@{5}: merge branch_v1.0: Fast-forward
+b9e0437 HEAD@{6}: checkout: moving from branch_v1.0 to master
+baa23ab HEAD@{7}: checkout: moving from master to branch_v1.0
+b9e0437 HEAD@{8}: checkout: moving from branch_v1.0 to master
+baa23ab HEAD@{9}: commit: 本地分支可以自己玩
+b9e0437 HEAD@{10}: checkout: moving from master to branch_v1.0
+b9e0437 HEAD@{11}: commit: git-tag笔记
+033a99c HEAD@{12}: commit: tagv1.0.2之后追加
+7b0df9f (tag: v1.0.2, tag: v1.0.1) HEAD@{13}: commit: 学习标签管理
+ffa36d6 HEAD@{14}: commit: 笔记文件格式不对
+2117a26 HEAD@{15}: commit: git命令学习笔记
+b959e73 HEAD@{16}: commit (amend): "加空行空格、扫描不出来变动，有点尴尬"
+2c03e6b HEAD@{17}: commit: Signed-off-by: yywsy <707339@163.com>
+4e15d87 HEAD@{18}: commit: "这个是用gui提交的，先stage changed 把文件从上面红色
+区域拉到下面的绿色区域，再comit"
+85a21b0 HEAD@{19}: commit: 必填提交说明
+d8ae3f4 HEAD@{20}: commit: 再次修改，继续使用git -add README.md
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ vi resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git commit resetTest.txt
+[master b3082bd] 假设回滚之后又有新的变更，然后再次回滚到之前一个版本
+ 1 file changed, 1 insertion(+)
+
+#将本地工作空间的版本指向了上次远程同步的版本，这一步操作其实是撤销了回滚、放弃了刚才的修改
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git reset --hard 919329f
+HEAD is now at 919329f  二次提交
+# 在最新版本上做了修改，所以能正常提交和push
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ vi resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git add resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git commit resetTest.txt  -m "二次reset"
+[master 1f73515] 二次reset
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ push
+bash: push: command not found
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 584 bytes | 584.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/yywsy/gitDemo.git
+   919329f..1f73515  master -> master
+
+# 想要达到的效果是，回到过去版本并和现在代码合并，操作步骤有点不一样
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ vi resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git add resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git commit resetTest.txt -m "第一次提交并push，原始数据"
+[master 91b0612] 第一次提交并push，原始数据
+ 1 file changed, 3 insertions(+)
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 381 bytes | 381.00 KiB/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/yywsy/gitDemo.git
+   1f73515..91b0612  master -> master
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ vi resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git add resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git commit resetTest.txt -m "第二次提交并push，新增一行"
+[master dd14240] 第二次提交并push，新增一行
+ 1 file changed, 1 insertion(+)
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 378 bytes | 378.00 KiB/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/yywsy/gitDemo.git
+   91b0612..dd14240  master -> master
+
+#查看提交记录
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git log
+commit dd14240ad76438ba516e04a44bf911ce2b4b343f (HEAD -> master, origin/master)
+Author: yywsy <707339@163.com>
+Date:   Sat Jun 8 19:10:16 2019 +0800
+
+    第二次提交并push，新增一行
+
+commit 91b0612a7f258b7976057709da57a4042bfe4bc2
+Author: yywsy <707339@163.com>
+Date:   Sat Jun 8 19:08:29 2019 +0800
+
+    第一次提交并push，原始数据
+
+commit 1f73515f20b6bf30f7a5086f846a91a147431658
+Author: yywsy <707339@163.com>
+Date:   Sat Jun 8 18:50:41 2019 +0800
+
+    二次reset
+
+commit 919329f9a764b1dda1486e4dee2e654e8b90b6be
+Author: yywsy <707339@163.com>
+Date:   Sat Jun 8 18:32:06 2019 +0800
+
+     二次提交
+
+#回退到第一次提交
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git reset --hard  91b0612a7f258b7976057709da57a4042bfe4bc2
+HEAD is now at 91b0612 第一次提交并push，原始数据
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git status
+On branch master
+Your branch is behind 'origin/master' by 1 commit, and can be fast-forwarded.
+  (use "git pull" to update your local branch)
+
+nothing to commit, working tree clean
+#对回滚之后的文件做修改
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ vi resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git add resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git commit resetTest.txt -m "第一次回滚到原始状态之后，修改提交，并push"
+[master 60c4b6b] 第一次回滚到原始状态之后，修改提交，并push
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+#这时候已经不能push了，提示本地仓库和远程不同步，需要先pull
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git push
+To https://github.com/yywsy/gitDemo.git
+ ! [rejected]        master -> master (non-fast-forward)
+error: failed to push some refs to 'https://github.com/yywsy/gitDemo.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+#查看所有操作日志
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git reflog
+60c4b6b (HEAD -> master) HEAD@{0}: commit: 第一次回滚到原始状态之后，修改提交，
+并push
+91b0612 HEAD@{1}: reset: moving to 91b0612a7f258b7976057709da57a4042bfe4bc2
+dd14240 (origin/master) HEAD@{2}: commit: 第二次提交并push，新增一行
+91b0612 HEAD@{3}: commit: 第一次提交并push，原始数据
+1f73515 HEAD@{4}: commit: 二次reset
+919329f HEAD@{5}: reset: moving to 919329f
+b3082bd HEAD@{6}: commit: 假设回滚之后又有新的变更，然后再次回滚到之前一个版本
+cf7195b HEAD@{7}: reset: moving to cf7195bb29370eadd0b1537d8d10063740912083
+919329f HEAD@{8}: commit: 二次提交
+cf7195b HEAD@{9}: commit: reset 命令学习
+a8e8bfa HEAD@{10}: commit: "如何将github 项目同步到码云"
+66e2e79 HEAD@{11}: commit: 分支命令学习
+baa23ab HEAD@{12}: merge branch_v1.0: Fast-forward
+b9e0437 HEAD@{13}: checkout: moving from branch_v1.0 to master
+baa23ab HEAD@{14}: checkout: moving from master to branch_v1.0
+b9e0437 HEAD@{15}: checkout: moving from branch_v1.0 to master
+baa23ab HEAD@{16}: commit: 本地分支可以自己玩
+b9e0437 HEAD@{17}: checkout: moving from master to branch_v1.0
+b9e0437 HEAD@{18}: commit: git-tag笔记
+033a99c HEAD@{19}: commit: tagv1.0.2之后追加
+7b0df9f (tag: v1.0.2, tag: v1.0.1) HEAD@{20}: commit: 学习标签管理
+ffa36d6 HEAD@{21}: commit: 笔记文件格式不对
+
+#撤销了刚才的回滚操作，本地文件恢复成最后一次提交
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git reset --hard dd14240
+HEAD is now at dd14240 第二次提交并push，新增一行
+# 刚才的回滚和变更都被抹去了
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ vi resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git add resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git commit -m "第三次尝试"
+[master 5600049] 第三次尝试
+ 1 file changed, 2 insertions(+)
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 345 bytes | 345.00 KiB/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/yywsy/gitDemo.git
+   dd14240..5600049  master -> master
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ vi resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git add resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git commit resetTest.txt -m "需要被回滚的修改"
+[master 970272d] 需要被回滚的修改
+ 1 file changed, 1 insertion(+)
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 342 bytes | 342.00 KiB/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/yywsy/gitDemo.git
+   5600049..970272d  master -> master
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git log
+commit 970272d2c0ec08ee09a88f8328d14a5abde1bce8 (HEAD -> master, origin/master)
+Author: yywsy <707339@163.com>
+Date:   Sat Jun 8 19:23:04 2019 +0800
+
+    需要被回滚的修改
+
+commit 5600049db224059d30b07f2fbd87757bbefec7e5
+Author: yywsy <707339@163.com>
+Date:   Sat Jun 8 19:21:09 2019 +0800
+
+    第三次尝试
+
+commit dd14240ad76438ba516e04a44bf911ce2b4b343f
+Author: yywsy <707339@163.com>
+Date:   Sat Jun 8 19:10:16 2019 +0800
+
+    第二次提交并push，新增一行
+
+commit 91b0612a7f258b7976057709da57a4042bfe4bc2
+Author: yywsy <707339@163.com>
+Date:   Sat Jun 8 19:08:29 2019 +0800
+
+    第一次提交并push，原始数据
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$
+#第三次回滚
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git reset --hard  5600049db224059d30b07f2fbd87757bbefec7e5
+HEAD is now at 5600049 第三次尝试
+# 回滚之后修改
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ vi resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git add resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git commit -m "回滚之后修改，然后提交，pull合并"
+[master 99e50ee] 回滚之后修改，然后提交，pull合并
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+# commit之后并不push，而是执行pull
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git pull
+Auto-merging resetTest.txt #这时候执行了自动合并
+CONFLICT (content): Merge conflict in resetTest.txt
+Automatic merge failed; fix conflicts and then commit the result.
+# 查看结果，果然历史版本和现在版本都保留了，并合并，但是其实文件冲突了，因为回滚之后修改的同一个地方
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master|MERGING)
+$ vi resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master|MERGING)
+$ git add resetTest.txt
+
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master|MERGING)
+$ git commit -m"pull之后文件冲突了"
+[master 4843e3c] pull之后文件冲突了
+
+#冲突并不影响push
+Administrator@wsy MINGW64 /e/IlikeStudy/CODEING/git/gitDemo (master)
+$ git push
+Enumerating objects: 10, done.
+Counting objects: 100% (10/10), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 772 bytes | 772.00 KiB/s, done.
+Total 6 (delta 4), reused 0 (delta 0)
+remote: Resolving deltas: 100% (4/4), completed with 2 local objects.
+To https://github.com/yywsy/gitDemo.git
+   970272d..4843e3c  master -> master
